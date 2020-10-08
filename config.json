@@ -1,0 +1,453 @@
+{
+  "permalinkServiceUrl": "http://localhost:5001/",
+  "elevationServiceUrl": "http://localhost:5002/",
+  "editServiceUrl": "http://localhost:5012/",
+  "dataproductServiceUrl": "http://localhost:5023/",
+  "searchServiceUrl": "http://localhost:5011/",
+  "searchDataServiceUrl": "http://localhost:5012/",
+  "authServiceUrl": "http://localhost:5017/",
+  "mapInfoService":  "http://localhost:5016/",
+  "featureReportService": "http://localhost:5011/",
+  "landRegisterService": "http://localhost:5020/",
+  "cccConfigService": "http://localhost:5021/",
+  "plotInfoService": "http://localhost:5022/",
+  "translationsPath": "/map/translations",
+  "assetsPath": "/map/assets",
+  "urlPositionFormat": "centerAndZoom",
+  "urlPositionCrs": "",
+  "urlReverseLayerOrder": true,
+  "preserveExtentOnThemeSwitch": true,
+  "preserveBackgroundOnThemeSwitch": true,
+  "preserveNonThemeLayersOnThemeSwitch": true,
+  "allowReorderingLayers": true,
+  "allowRemovingThemeLayers": true,
+  "localeAwareNumbers": true,
+  "wmsDpi": 96,
+  "minResultsExanded": 100,
+  "defaultFeatureStyle": {
+    "strokeColor": [255, 128, 0, 1],
+    "strokeWidth": 2,
+    "strokeDash": [],
+    "fillColor": [255, 255, 64, 0.33],
+    "circleRadius": 10,
+    "circleBorder": 2,
+    "textFill": "black",
+    "textStroke": "white"
+  },
+  "plugins": {
+      "mobile": [
+        {
+          "name": "Map"
+        },
+        {
+          "name": "HomeButton"
+          ,
+          "cfg": {
+            "position": 2
+          }
+        },
+        {
+          "name": "LocateButton",
+          "cfg": {
+            "position": 1
+          }
+        },
+        {
+          "name": "BackgroundSwitcher",
+          "cfg": {
+            "position": 0
+          }
+        },
+        {
+            "name": "TopBar",
+            "cfg": {
+              "logoFormat": "jpg",
+              "menuItems": [
+                {"key": "LayerTree", "icon": "layers", "identifyEnabled": true},
+                {"key": "PlotInfoTool", "icon": "plot_info", "comment": true},
+                {"key": "Share", "icon": "share", "identifyEnabled": true},
+                {"key": "Tools", "icon": "tools", "subitems": [
+                  {"key": "Measure", "icon": "measure"},
+                  {"key": "Redlining", "icon": "draw"},
+                  {"key": "Editing", "themeWhitelist": [], "icon": "editing"},
+                  {"key": "RasterExport", "icon": "rasterexport"}
+                ]},
+                {"key": "Print", "icon": "print"},
+                {"key": "LandRegisterExtract", "icon": "print"},
+                {"key": "Help", "icon": "info", "identifyEnabled": true},
+                {"key": "Login", "icon": "login"}
+              ],
+              "searchOptions": {
+                "minScale": 100,
+                "resultLimit": 10,
+                "showProviderSelection": true,
+                "providerSelectionAllowAll": true,
+                "zoomToLayers": false
+              },
+              "appMenuClearsTask": true,
+              "logoClickResetsTheme": true,
+              "logoUrl": "/map"
+            }
+        },
+        {
+          "name": "ThemeSwitcher"
+        },
+        {
+          "name": "Measure",
+          "cfg": {
+            "showMeasureModeSwitcher": true
+          }
+        },
+        {
+          "name": "Identify",
+          "cfg": {
+            "params": {
+              "FI_POINT_TOLERANCE": 32,
+              "FI_LINE_TOLERANCE": 16,
+              "FI_POLYGON_TOLERANCE": 8,
+              "feature_count": 20
+            },
+            "exportFormat": null,
+            "enableExport": false,
+            "longAttributesDisplay": "wrap",
+            "displayResultTree": false
+          }
+        },
+        {
+          "name": "Share",
+          "cfg": {
+            "showSocials": true,
+            "showLink": true,
+            "showQRCode": true
+          },
+          "mapClickAction": "identify"
+        },
+        {
+          "name": "Print",
+          "cfg": {
+            "printExternalLayers": true,
+            "gridInitiallyEnabled": true
+          }
+        },
+        {
+          "name": "Help"
+        },
+        {
+          "name": "MapCopyright"
+        },
+        {
+          "name": "LayerTree",
+          "cfg": {
+            "width": "30em",
+            "allowMapTips": false,
+            "showLegendIcons": false,
+            "showRootEntry": true,
+            "showQueryableIcon": false,
+            "groupTogglesSublayers": true,
+	        "transparencyIcon": false,
+            "grayUnchecked": false,
+            "flattenGroups": true,
+            "legendThumbnail": "legend_thumbnail.svg",
+            "layerInfoWindowSize": {"width": 480, "height": 400}
+          }
+        },
+        {
+          "name": "RasterExport",
+          "cfg": {
+            "dpis": [96, 300]
+          }
+        },
+        {
+          "name": "Redlining",
+          "cfg": {
+            "allowGeometryLabels": false
+          }
+        },
+        {
+          "name": "Editing"
+        },
+        {
+          "name": "MapCompare"
+        },
+        {
+          "name": "HeightProfile"
+        },
+        {
+          "name": "MapInfoTooltip"
+        },
+        {
+          "name": "Authentication"
+        },
+        {
+          "name": "LandRegisterExtract"
+        },
+        {
+          "name": "CCCInterface"
+        },
+        {
+          "name": "PlotInfoTool",
+          "cfg": {
+            "toolLayers": ["ch.so.agi.av.grundstuecke"],
+            "infoQueries": [
+              {
+                "key": "plotdescr",
+                "title": "Grundstückbeschrieb",
+                "query": "/plot/$egrid$",
+                "pdfQuery": null,
+                "urlKey": "cadastre_egrid"
+              },
+              {
+                "key": "oereb",
+                "titleMsgId": "oereb.title",
+                "failMsgId": "oereb.failed",
+                "query": "/oereb/xml/$egrid$",
+                "pdfQuery": "/oereb/pdf/$egrid$",
+                "pdfTooltip": "oereb.requestPdf",
+                "urlKey": "oereb_egrid",
+                "scrollmode": "parent",
+                "cfg": {
+                  "hideLogo": true,
+                  "responsibleOfficeFromRestriction": true,
+                  "themes": ["LandUsePlans", "ch.SO.NutzungsplanungGrundnutzung", "ch.SO.NutzungsplanungUeberlagernd", "ch.SO.NutzungsplanungSondernutzungsplaene","ch.SO.Baulinien", "MotorwaysProjectPlaningZones", "MotorwaysBuildingLines", "RailwaysProjectPlanningZones", "RailwaysBuildingLines", "AirportsProjectPlanningZones", "AirportsBuildingLines", "AirportsSecurityZonePlans", "ContaminatedSites", "ContaminatedMilitarySites", "ContaminatedCivilAviationSites", "ContaminatedPublicTransportSites", "GroundwaterProtectionZones", "GroundwaterProtectionSites", "NoiseSensitivityLevels", "ForestPerimeters", "ForestDistanceLines", "ch.SO.Einzelschutz"]
+                }
+              },
+              {
+                "key": "plotowner",
+                "title": "Eigentümerinformationen",
+                "query": "/plot_owner/captcha/$egrid$",
+                "pdfQuery": null,
+                "urlKey": "property_egrid",
+                "cfg": {
+                  "queryUrl": "/plot_owner/$egrid$"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "desktop": [
+        {
+          "name": "Map"
+        },
+        {
+          "name": "HomeButton"
+          ,
+          "cfg": {
+            "position": 4
+          }
+        },
+        {
+          "name": "LocateButton"
+          ,
+          "cfg": {
+            "position": 3
+          }
+        },
+        {
+          "name": "ZoomIn",
+          "cfg": {
+            "position": 2
+          }
+        },
+        {
+          "name": "ZoomOut",
+          "cfg": {
+            "position": 1
+          }
+        },
+        {
+          "name": "BackgroundSwitcher",
+          "cfg": {
+            "position": 0
+          }
+        },
+        {
+            "name": "TopBar",
+            "cfg": {
+              "logoFormat": "png",
+              "menuItems": [
+                {"key": "LayerTree", "icon": "layers", "identifyEnabled": true},
+                {"key": "PlotInfoTool", "icon": "plot_info", "comment": true},
+                {"key": "Share", "icon": "share", "identifyEnabled": true},
+                {"key": "Tools", "icon": "tools", "subitems": [
+                  {"key": "Measure", "icon": "measure"},
+                  {"key": "Redlining", "icon": "draw"},
+                  {"key": "Editing", "themeWhitelist": [], "icon": "editing"},
+                  {"key": "RasterExport", "icon": "rasterexport"}
+                ]},
+                {"key": "Print", "icon": "print"},
+                {"key": "LandRegisterExtract", "icon": "print"},
+                {"key": "Help", "icon": "info", "identifyEnabled": true},
+                {"key": "Login", "icon": "login"}
+              ],
+              "searchOptions": {
+                "minScale": 100,
+                "resultLimit": 25,
+                "showProviderSelection": true,
+                "providerSelectionAllowAll": true,
+                "zoomToLayers": false
+              },
+              "appMenuClearsTask": true,
+              "logoClickResetsTheme": true,
+              "logoUrl": "/map"
+            }
+        },
+        {
+          "name": "BottomBar",
+          "cfg": {
+            "viewertitleUrl": "https://www.so.ch/verwaltung/bau-und-justizdepartement/amt-fuer-geoinformation/geoportal/"
+          }
+        },
+        {
+          "name": "Measure",
+          "cfg": {
+            "showMeasureModeSwitcher": true
+          }
+        },
+        {
+          "name": "ThemeSwitcher"
+        },
+        {
+          "name": "LayerTree",
+          "cfg": {
+            "width": "30em",
+            "allowMapTips": false,
+            "showLegendIcons": false,
+            "showRootEntry": true,
+            "showQueryableIcon": false,
+            "groupTogglesSublayers": true,
+	    "transparencyIcon": false,
+            "grayUnchecked": false,
+            "flattenGroups": true,
+            "legendThumbnail": "legend_thumbnail.svg",
+            "layerInfoWindowSize": {"width": 480, "height": 400}
+          },
+          "mapClickAction": "identify"
+        },
+        {
+          "name": "Identify",
+          "cfg": {
+            "params": {
+              "FI_POINT_TOLERANCE": 16,
+              "FI_LINE_TOLERANCE": 8,
+              "FI_POLYGON_TOLERANCE": 4,
+              "feature_count": 20
+            },
+            "exportFormat": null,
+            "enableExport": false,
+            "longAttributesDisplay": "wrap",
+            "displayResultTree": false,
+            "initialWidth": 480,
+            "initialHeight": 550
+          }
+        },
+        {
+          "name": "MapTip"
+        },
+        {
+          "name": "Share",
+          "cfg": {
+            "showSocials": true,
+            "showLink": true,
+            "showQRCode": true
+          }
+        },
+        {
+          "name": "Print",
+          "cfg": {
+            "printExternalLayers": true,
+            "gridInitiallyEnabled": true
+          }
+        },
+        {
+          "name": "Help"
+        },
+        {
+          "name": "RasterExport",
+          "cfg": {
+            "dpis": [96, 300]
+          }
+        },
+        {
+          "name": "Redlining",
+          "cfg": {
+            "allowGeometryLabels": false
+          }
+        },
+        {
+          "name": "Editing",
+          "cfg": {
+             "width": "30em",
+             "touchFriendly": false
+          }
+        },
+        {
+          "name": "MapCompare"
+        },
+        {
+          "name": "HeightProfile",
+          "cfg": {
+            "height": 200
+          }
+        },
+        {
+          "name": "MapInfoTooltip"
+        },
+        {
+          "name": "Authentication"
+        },
+        {
+          "name": "LandRegisterExtract"
+        },
+        {
+          "name": "CCCInterface"
+        },
+        {
+          "name": "PlotInfoTool",
+          "cfg": {
+            "toolLayers": ["ch.so.agi.av.grundstuecke"],
+            "infoQueries": [
+              {
+                "key": "plotdescr",
+                "title": "Grundstückbeschrieb",
+                "query": "/plot/$egrid$",
+                "pdfQuery": null,
+                "urlKey": "cadastre_egrid"
+              },
+              {
+                "key": "oereb",
+                "titleMsgId": "oereb.title",
+                "failMsgId": "oereb.failed",
+                "query": "/oereb/xml/$egrid$",
+                "pdfQuery": "/oereb/pdf/$egrid$",
+                "pdfTooltip": "oereb.requestPdf",
+                "urlKey": "oereb_egrid",
+                "scrollmode": "parent",
+                "cfg": {
+                  "hideLogo": true,
+                  "responsibleOfficeFromRestriction": true,
+                  "themes": ["LandUsePlans", "ch.SO.NutzungsplanungGrundnutzung", "ch.SO.NutzungsplanungUeberlagernd", "ch.SO.NutzungsplanungSondernutzungsplaene","ch.SO.Baulinien", "MotorwaysProjectPlaningZones", "MotorwaysBuildingLines", "RailwaysProjectPlanningZones", "RailwaysBuildingLines", "AirportsProjectPlanningZones", "AirportsBuildingLines", "AirportsSecurityZonePlans", "ContaminatedSites", "ContaminatedMilitarySites", "ContaminatedCivilAviationSites", "ContaminatedPublicTransportSites", "GroundwaterProtectionZones", "GroundwaterProtectionSites", "NoiseSensitivityLevels", "ForestPerimeters", "ForestDistanceLines", "ch.SO.Einzelschutz"]
+                }
+              },
+              {
+                "key": "plotowner",
+                "title": "Eigentümerinformationen",
+                "query": "/plot_owner/captcha/$egrid$",
+                "pdfQuery": null,
+                "urlKey": "property_egrid",
+                "cfg": {
+                  "queryUrl": "/plot_owner/$egrid$"
+                }
+              }
+            ]
+          }
+        },
+        {
+            "name": "Autologin",
+            "cfg": {
+                "autologinUrl": "https://intraso.rootso.org/"
+            }
+        }
+      ]
+  }
+}

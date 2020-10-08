@@ -1,0 +1,402 @@
+{
+      "$schema": "https://git.sourcepole.ch/ktso/somap/-/raw/master/config-generator/schemas/sogis-config-generator.json",      
+      "service": "config-generator",
+      "config": {
+          "config_db_url": "postgresql:///?service=soconfig_services",
+          "config_path": "/srv/qwc_service/config",
+          "legend_images_path": "/srv/qwc_service/config/default"
+      },
+      "services": [
+      {   
+        "name": "agdi",
+        "config": {
+            "db_url": "postgresql:///?service=soconfig_services",
+            "project_output_dir": "/qgs-resources",
+            "jasper_reports_dir": "/jasper/reports",
+            "jasper_service_url": "http://jasper-reporting-service.gdi-test.svc/reports",
+            "config_generator_url": "http://pfeiffer%20michael-admin-edit-view:1172fe33c18ac403bf662c5174d3b112f2@jenkins-agi-apps-test.dev.so.ch/job/print-service/buildWithParameters?token=apiToken&vBaseImage=latest&vDeployImage=2.0.17&namespace=gdi-test",
+            "solr_update_url": "http://indexupdater.solr-cloud-test.svc/queue?ds=foreground,background&dih=solr/gdi/dih_metadata"
+        }
+      },
+      {   
+        "name": "saml-auth",
+        "config": {
+          "saml_path": "saml",
+          "saml_slo": true,
+          "group_attr": "department_qualified"
+        }
+      },
+      {   
+        "name": "ogc",
+        "config": {
+          "default_qgis_server_url": "http://qgis-server.gdi-test.svc/ows/"
+        },
+        "resources": {
+          "wms_services": [
+            {
+              "name": "somap",
+              "online_resources": {
+                "service": "https://geo-t.so.ch/api/wms",
+                "feature_info": "https://geo-t.so.ch/api/v1/featureinfo/somap",
+                "legend": "https://geo-t.so.ch/api/v1/featureinfo/somap"
+              }
+            }
+          ],
+          "wfs_services": [
+            {
+              "name": "somap",
+              "online_resource": "https://geo-t.so.ch/api/wfs"
+            }
+          ]
+        }
+      },
+      {
+        "name": "data",
+        "config": {}
+      },
+      {
+        "name": "legend",
+        "config": {
+          "default_qgis_server_url": "http://qgis-server.gdi-test.svc/ows/",
+          "legend_images_path": "/qgs-resources/"
+        }
+      },
+      {
+        "name": "featureInfo",
+        "config": {
+          "default_qgis_server_url": "http://qgis-server.gdi-test.svc/ows",
+          "#default_info_template": "<table>...</table>"
+        }
+      },
+      {
+      "name": "mapViewer",
+        "config": {
+          "qwc2_path": "/qwc2/",
+          "auth_service_url": "/auth/",
+          "ccc_config_service_url": "/api/v1/ccc/",
+          "data_service_url": "/api/data/v1/",
+          "dataproduct_service_url": "/api/dataproduct/v1/",
+          "elevation_service_url": "/elevation/",
+          "feature_report_service_url": "/api/v1/document/",
+          "info_service_url": "/api/v1/featureinfo/",
+          "landreg_service_url": "/api/v1/landreg/",
+          "legend_service_url": "/api/v1/legend/",
+          "mapinfo_service_url": "/api/v1/mapinfo/",
+          "ogc_service_url": "/ows/",
+          "permalink_service_url": "/api/v1/permalink/",
+          "plotinfo_service_url": "/api/v1/plotinfo/",
+          "print_service_url": "/api/v1/print/",
+          "search_service_url": "/api/search/v2/fts/",
+          "search_data_service_url": "/api/data/v1/"
+        },
+        "resources": {
+          "qwc2_config": {
+            "qwc2_config_file": "/srv/qwc_service/config.json",
+            "wmsDpi": 96,
+            "minResultsExanded": 100
+          },
+          "qwc2_themes": {
+            "default_theme_attribution_title": "Kt. Solothurn",
+            "default_theme_attribution_online_resource": "https://www.so.ch/verwaltung/bau-und-justizdepartement/amt-fuer-geoinformation/geoportal/",
+            "default_crs": "EPSG:2056",
+            "default_theme_item_bounds": [2590000, 1210000, 2650000, 1270000],
+            "default_layer_bounds": [2590000, 1210000, 2650000, 1270000],
+            "default_image_formats": ["image/jpeg", "image/png"],
+            "default_theme": "default",
+            "default_print_layout": "A4 hoch",
+            "default_scales": [
+              4000000, 2000000, 1000000, 400000, 200000, 80000, 40000, 20000, 10000, 8000, 6000, 4000, 2000, 1000, 500, 250, 100
+            ],
+            "default_wms_version": "1.3.0",
+            "default_print_resolutions": [200],
+            "backgroundLayers": [
+              {
+                "name": "hintergrundkarte_sw", 
+                "originX": 2420000, 
+                "originY": 1350000, 
+                "projection": "EPSG:2056",
+                "resolution": [
+                   4000,2000,1000,500,250,100,50,20,10,5,2.5,1,0.5,0.25,0.1
+                   ],
+                "thumbnail": "img/custommapthumbs/e53e11fc-0a48-49e3-941b-9350c9eaebad.png",
+                "tileMatrixPrefix": "",
+                "tileMatrixSet": "2056",
+                "tileSize": [256,256],
+                "title": "Karte SW",
+                "type": "wmts",
+                "url":"https://geo-t.so.ch/api/wmts/1.0.0/ch.so.agi.hintergrundkarte_sw/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png"
+               }
+            ],
+            "default_print_grid": [
+              {"s": 100000001, "x": 10000000, "y": 10000000},
+              {"s": 50000001, "x": 5000000, "y": 5000000},
+              {"s": 10000001, "x": 2500000, "y": 2500000},
+              {"s": 5000001, "x": 250000, "y": 250000},
+              {"s": 1000001, "x": 100000, "y": 100000},
+              {"s": 500001, "x": 50000, "y": 50000},
+              {"s": 100001, "x": 10000, "y": 10000},
+              {"s": 50001, "x": 5000, "y": 5000},
+              {"s": 25001, "x": 2000, "y": 2000},
+              {"s": 12001, "x": 2000, "y": 2000},
+              {"s": 5001, "x": 1000, "y": 1000},
+              {"s": 2501, "x": 500, "y": 500},
+              {"s": 1001, "x": 200, "y": 200},
+              {"s": 501, "x": 100, "y": 100},
+              {"s": 251, "x": 50, "y": 50},
+              {"s": 100, "x": 25, "y": 25}
+            ]
+          }
+        }
+      },
+      {
+        "name": "search",
+        "config": {
+          "solr_service_url": "http://solr-headless.solr-cloud-test:8983/solr/gdi/select",
+          "search_result_limit": 25,
+          "geodb_url": "postgresql:///?service=soconfig_services"
+        }
+      },
+      {
+        "name": "dataproduct",
+        "config": {
+          "wms_service_url": "https://geo-t.so.ch/api/wms?",
+          "qgs_resources_dir": "/qgs-resources/"
+        }
+      },
+      {
+        "name": "document",
+        "config": {
+          "jasper_service_url": "http://jasper-reporting-service.gdi-test.svc/reports",
+          "jasper_timeout": 1200
+        }
+      },
+      {
+        "name": "ccc",
+        "config": {
+          "clients": [
+            {
+              "id": "baugk",
+              "cccServer": "wss://geo-i.so.ch/ccc-service",
+              "title": "BauGK - GIS",
+              "map": "baugk",
+              "editGeomType": "Point",
+              "notifyLayers": [{
+                "layer": "ch.so.afu.baugk.geschaefte",
+                "mapping": [
+                  {
+                    "agdi_attr_name": "laufnummer",
+                    "ccc_attr_name": "geschaeft_laufnr"
+                  }
+                ]
+              }],
+              "notifyLinkTitle": "In Axioma anzeigen"
+            },
+            {
+              "id": "uplus_anlage",
+              "cccServer": "wss://geo-i.so.ch/ccc-service",
+              "title": "Umweltplus - GIS",
+              "map": "ews_v2",
+              "editGeomType": "Point",
+              "notifyLayers": [{
+                "layer": "ch.so.afu.erdwaerme.uplus.anlage_v2",
+                "mapping": [
+                  {
+                    "agdi_attr_name": "anlage_uuid",
+                    "ccc_attr_name": "uplus_anlage"
+                  }
+                ]
+              }],
+              "notifyLinkTitle": "In Umweltplus anzeigen"
+            },
+            {
+              "id": "uplus_tank",
+              "cccServer": "wss://geo-i.so.ch/ccc-service",
+              "title": "Umweltplus - GIS",
+              "map": "uplus_tank",
+              "editGeomType": "Point",
+	      "notifyLayers": [{
+                "layer": "ch.so.afu.uplus.tank",
+                "mapping": [
+                  {
+                    "agdi_attr_name": "anlage_uuid",
+                    "ccc_attr_name": "uplus_anlage"
+                  }
+                ]
+              }],
+              "notifyLinkTitle": "In Umweltplus anzeigen"
+            },
+            {
+              "id": "uplus_luft",
+              "cccServer": "wss://geo-i.so.ch/ccc-service",
+              "title": "Umweltplus - GIS",
+              "map": "uplus_luft",
+              "editGeomType": "Point",
+              "notifyLayers": [{
+                "layer": "ch.so.afu.uplus.luft_anlage",
+                "mapping": [
+                  {
+                    "agdi_attr_name": "anlage_uuid",
+                    "ccc_attr_name": "uplus_anlage"
+                  }
+                ]
+              }, {
+                "layer": "ch.so.afu.uplus.luft_betrieb",
+                "mapping": [
+                  {
+                    "agdi_attr_name": "betrieb_uuid",
+                    "ccc_attr_name": "uplus_betrieb"
+                  }
+                ]
+              }],
+              "notifyLinkTitle": "In Umweltplus anzeigen"
+            }
+          ],
+	  "zoomto_data_service_url": "http://data-service.gdi-test.svc",
+          "zoomto_full_extent": [2590983.475, 1212806.115, 2646267.025, 1262755.009],
+          "zoomto_config": {
+            "locatorType": "PriorityLocator",
+            "filters": [
+              {
+                "dataset": "ch.so.agi.av.grundstuecke.rechtskraeftig",
+                "filter": [
+                  ["nbident", "=", "{grundbuch_nbident}"], "and", ["nummer", "=", "{parzelle_nr}"]
+                ]
+              },
+              {
+                "dataset": "ch.so.agi.gemeindegrenzen",
+                "filter": [
+                  ["bfs_gemeindenummer", "=", "{bfs}"]
+                ]
+              }
+            ]
+          }
+        }
+      }, 
+      {   
+        "name": "elevation",
+        "config": {
+          "elevation_dataset": "/data/daten_aktuell/agi/hoehenmodelle/lidar/2014/dtm/50cm/lidar_2014_dtm_50cm.vrt"
+        }
+      },
+      {
+        "name": "landreg",
+        "config": {
+          "db_url": "postgresql:///?service=sogis_services",
+          "qgis_server_url": "http://qgis-server.gdi-test.svc/ows/",
+          "landreg_project": "grundbuchplanauszug",
+          "landreg_print_layers": "mopublic_einzelobjekt_flaeche_unterirdisch,mopublic_bodenbedeckung,mopublic_ortsname.pos,grundbuchplan_bodenbedeckungsymbol,mopublic_bodenbedeckung_proj,mopublic_einzelobjekt_flaeche,mopublic_einzelobjekt_linie,mopublic_einzelobjekt_punkt,mopublic_rohrleitung,mopublic_strassenname_pos,mopublic_gebaeudeadresse.pos,mopublic_flurname.pos,mopublic_ortsname.pos,mopublic_gelaendename,mopublic_grundstueck_proj.geometrie,mopublic_grundstueck.geometrie,mopublic_grundstueck_proj.geometrie_liegenschaft,grundbuchplan_liegenschaft,grundbuchplan_grundstueckpos.hilfslinie,mopublic_grundstueck_proj.pos,grundbuchplan_grundstueckpos.pos,mopublic_gemeindegrenze,mopublic_gemeindegrenze_proj,grundbuchplan_grenzpunkt,mopublic_hoheitsgrenzpunkt.geometrie,mopublic_fixpunkt.geometrie,baulinie",
+          "landreg_printinfo_table": "agi_grundbuchplan_pub.grundbuchplan_grundbuchplanauszug",
+          "default_landreg_layout": "A4-Hoch"
+        }
+      },
+      {   
+        "name": "mapinfo",
+        "config": {
+          "db_url": "postgresql:///?service=sogis_services",
+          "info_table": "agi_hoheitsgrenzen_pub.hoheitsgrenzen_gemeindegrenze",
+          "info_geom_col": "geometrie",
+          "info_display_col": "gemeindename",
+          "info_title": "gemeinde"
+        }
+      },
+      {
+        "name": "permalink",
+        "config": {
+          "db_url": "postgresql:///?service=soconfig_services",
+          "permalinks_table": "public.permalinks"
+        }
+      },
+      {
+        "name": "plotinfo",
+        "config": {
+          "db_url": "postgresql:///?service=sogis_services",
+          "basic_info_sql": "SELECT g.egrid, g.nummer, g.art_txt, g.flaechenmass, ST_AsText(ST_Simplify(g.geometrie, 0.01)) AS geom, gem.gemeindename || ' (' || gem.bfs_nr || ')' AS gemeinde, gb.aname as grundbuch,ST_XMin(g.geometrie) as xmin, ST_YMin(g.geometrie) as ymin, ST_XMax(g.geometrie) as xmax, ST_YMax(g.geometrie) as ymax FROM agi_mopublic_pub.mopublic_grundstueck g  JOIN agi_mopublic_pub.mopublic_gemeindegrenze gem ON gem.bfs_nr = g.bfs_nr JOIN agi_av_gb_admin_einteilung_pub.grundbuchkreise_grundbuchkreis gb ON g.nbident = gb.nbident WHERE ST_Intersects( g.geometrie, ST_Buffer( ST_SetSRID(ST_Point(:x, :y), :srid),  :buffer ) )",
+          "basic_info_fields": [
+            {"gemeinde": "Gemeinde"},
+            {"grundbuch": "Grundbuch"},
+            {"nummer": "Nummer"},
+            {"egrid": "E-GRID"},
+            {"flaechenmass": "Fläche"},
+            {"art_txt": "Art"},
+            {"_flurnamen_": "Flurnamen"}
+          ],
+          "flurnamen_sql": "SELECT f.flurname FROM agi_mopublic_pub.mopublic_flurname f JOIN agi_mopublic_pub.mopublic_grundstueck g ON ST_Intersects(f.geometrie, g.geometrie) AND NOT ST_Touches(f.geometrie, g.geometrie) WHERE g.egrid = :egrid ORDER BY f.flurname;",
+          "detailed_info_sql": "SELECT g.flaechenmass, CASE WHEN g.art_txt = 'Liegenschaft' THEN 0 ELSE 1 END AS art, gb.aname as grundbuch,gb.amtschreiberei || E'\r\n' || gb.amt || E'\r\n'  || gb.strasse || ' ' || gb.hausnummer || E'\r\n' || gb.plz || ' ' || gb.ortschaft AS grundbuchamt, nf.firma || E'\r\n' || nf.firma_zusatz || E'\r\n'  || nf.strasse || ' ' || nf.hausnummer || E'\r\n' || nf.plz || ' ' || nf.ortschaft AS nfgeometer   FROM agi_mopublic_pub.mopublic_grundstueck g   JOIN (SELECT nbident,aname,amtschreiberei,amt,strasse,CASE WHEN hausnummer is NULL THEN '' ELSE hausnummer END AS hausnummer,plz,ortschaft    FROM agi_av_gb_admin_einteilung_pub.grundbuchkreise_grundbuchkreis) gb ON g.nbident = gb.nbident   JOIN (SELECT bfsnr,firma,CASE WHEN firma_zusatz is NULL THEN '' ELSE firma_zusatz END AS firma_zusatz,strasse,hausnummer,plz,ortschaft    FROM agi_av_gb_admin_einteilung_pub.nachfuehrngskrise_gemeinde) nf ON g.bfs_nr = nf.bfsnr WHERE g.egrid = :egrid LIMIT 1;",
+          "land_cover_fractions_sql": "WITH bodenbedeckung AS (SELECT ST_Area(ST_Intersection(b.geometrie, g.geometrie)) AS b_area,ST_Area(g.geometrie) AS g_area,CASE WHEN b.art_txt = 'Liegenschaft' THEN 0 ELSE 1 END AS art, b.art_txt FROM         agi_mopublic_pub.mopublic_bodenbedeckung b JOIN agi_mopublic_pub.mopublic_grundstueck g ON ST_Intersects(b.geometrie, g.geometrie) AND NOT ST_Touches(b.geometrie, g.geometrie) WHERE g.egrid = :egrid ) SELECT SUM(b_area) AS area, SUM(b_area/g_area) * 100 AS area_percent, art, art_txt FROM bodenbedeckung b GROUP BY art, art_txt ORDER BY area DESC;",
+          "building_addresses_sql": "SELECT a.strassenname, a.hausnummer, a.plz, a.ortschaft FROM agi_mopublic_pub.mopublic_gebaeudeadresse a JOIN agi_mopublic_pub.mopublic_grundstueck g ON ST_Contains(g.geometrie, a.lage) WHERE g.egrid = :egrid ORDER BY a.strassenname, a.hausnummer;",
+          "sdr_infos_liegenschaft_sql": "SELECT     sdr.nummer, CASE WHEN sdr.art_txt = 'Liegenschaft' THEN 0 ELSE 1 END AS art, sdr.art_txt,     ST_Area(ST_Intersection(sdr.geometrie, g.geometrie)) AS area FROM     agi_mopublic_pub.mopublic_grundstueck sdr     JOIN agi_mopublic_pub.mopublic_grundstueck g         ON ST_Intersects(sdr.geometrie, g.geometrie)         AND NOT ST_Touches(sdr.geometrie, g.geometrie) WHERE     g.egrid = :egrid AND sdr.art_txt != 'Liegenschaft' AND g.art_txt = 'Liegenschaft' ORDER BY     ST_Area(ST_Intersection(sdr.geometrie, g.geometrie)) DESC;",
+          "sdr_infos_sdr_sql": "SELECT     g.nummer, CASE WHEN g.art_txt = 'Liegenschaft' THEN 0 ELSE 1 END AS art, g.art_txt,     ST_Area(ST_Intersection(sdr.geometrie, g.geometrie)) AS area FROM     agi_mopublic_pub.mopublic_grundstueck g     JOIN agi_mopublic_pub.mopublic_grundstueck sdr         ON ST_Intersects(g.geometrie, sdr.geometrie)         AND NOT ST_Touches(g.geometrie, sdr.geometrie) WHERE     sdr.egrid = :egrid AND sdr.art_txt != 'Liegenschaft' AND g.art_txt = 'Liegenschaft' ORDER BY     ST_Area(ST_Intersection(sdr.geometrie, g.geometrie)) DESC;",
+          "lcsfc_colors": {
+            "Gebaeude": "#ffc8c8",
+
+            "Strasse_Weg": "#dcdcdc",
+            "Trottoir": "#dcdcdc",
+            "Verkehrsinsel": "#dcdcdc",
+            "Bahn": "#f0e6c8",
+            "Flugplatz": "#dcdcdc",
+            "Wasserbecken": "#96c8ff",
+            "uebrige_befestigte": "#f0f0f0",
+            "Sportanlage_befestigt": "#f0f0f0",
+            "Lagerplatz": "#f0f0f0",
+            "Boeschungsbauwerk": "#f0f0f0",
+            "Gebaeudeerschliessung": "#f0f0f0",
+            "Parkplatz": "#f0f0f0",
+
+            "Acker_Wiese_Weide": "#f0ffc8",
+            "Acker_Wiese": "#f0ffc8",
+            "Weide": "#f0ffc8",
+            "Reben": "#ffffc8",
+            "uebrige_Intensivkultur": "#ffffc8",
+            "Obstkultur": "#ffffc8",
+            "Gartenanlage": "#f0ffc8",
+            "Hoch_Flachmoor": "#c8fff0",
+            "uebrige_humusierte": "#f0ffc8",
+            "Parkanlage_humusiert": "#f0ffc8",
+            "Sportanlage_humusiert": "#f0ffc8",
+            "Friedhof": "#f0ffc8",
+
+            "stehendes": "#96c8ff",
+            "stehendes Gewaesser": "#96c8ff",
+            "fliessendes": "#96c8ff",
+            "fliessendes Gewaesser": "#96c8ff",
+            "Schilfguertel": "#c8fff0",
+
+            "geschlossener_Wald": "#a0f0a0",
+            "uebrige_bestockte": "#c8f0a0",
+            "Parkanlage_bestockt": "#c8f0a0",
+            "Hecke": "#c8f0a0",
+
+            "Fels": "#ffffff",
+            "Gletscher_Firn": "#ffffff",
+            "Geroell_Sand": "#ffffff",
+            "Abbau_Deponie": "#ffffff",
+            "uebrige_vegetationslose": "#ffffff",
+            "Steinbruch": "#ffffff",
+            "Kiesgrube": "#ffffff",
+            "Deponie": "#ffffff",
+            "uebriger_Abbau": "#ffffff"
+          },
+          "oereb_json_url": "http://oereb-web-service.agi-oereb-test.svc/extract/reduced/json/geometry/{egrid}",
+          "oereb_xml_url": "https://geo-t.so.ch/api/oereb/extract/reduced/xml/geometry/{egrid}",
+          "oereb_pdf_url": "https://geo-t.so.ch/api/oereb/extract/reduced/pdf/geometry/{egrid}",
+          "gbdbs_service_url": "https://terravis-t.so.ch/gbdbs/gbdbs",
+          "hide_owner_adresses": true,
+          "recaptcha_site_key": "mySiteKey",
+          "recaptcha_secret_key": "mySecretKey"
+        }
+      },
+      {   
+        "name": "print",
+        "config": {
+          "ogc_service_url": "http://qgis-server.gdi-test.svc/ows/",
+          "qgis_server_version": "2.18.19"
+        }
+      }
+     ],
+     "qgs_writer": {
+      "project_output_dir": "/srv/qwc_service/config/default",
+      "default_extent": [2590983, 1212806, 2646267, 1262755],
+      "#default_raster_extent": [2590000, 1210000, 2650000, 1270000],
+      "selection_color": [255, 255, 0, 255]
+    }
+}
