@@ -14,7 +14,7 @@
             "project_output_dir": "/qgs-resources",
             "jasper_reports_dir": "/jasper/reports",
             "jasper_service_url": "http://jasper-reporting-service.gdi-test.svc/reports",
-            "config_generator_url": "http://pfeiffer%20michael-admin-edit-view:1172fe33c18ac403bf662c5174d3b112f2@jenkins-agi-apps-test.dev.so.ch/job/print-service/buildWithParameters?token=apiToken&vBaseImage=latest&vDeployImage=2.0.17&namespace=gdi-test",
+            "config_generator_url": "http://username:token@jenkins-agi-apps-test.dev.so.ch/job/print-service/buildWithParameters?token=apiToken&vBaseImage=latest&vDeployImage=2.0.17&namespace=gdi-test",
             "solr_update_url": "http://indexupdater.solr-cloud-test.svc/queue?ds=foreground,background&dih=solr/gdi/dih_metadata"
         }
       },
