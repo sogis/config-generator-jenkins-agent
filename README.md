@@ -155,22 +155,30 @@ Start local service:
 Integration in AGI environment
 ------------------------------
 
-Adapt Dockerfile for use of config-generator in a jenkins python-slave.
+Adapt Dockerfile for use of config-generator in a jenkins agent.
 
 Create a secret for the pg_service file in the same Openshift Project as jenkins with
 
-    oc create secret generic python-slave-pg-service --from-file=pg_service.conf -n agi-apps-test
+    oc create secret generic config-generator-agent-pg-service --from-file=pg_service.conf -n agi-apps-test
 
-Build python-slave Image (!!Image works only if used as a slave in Jenkins!!) => Change Tag if needed
+Build config-generator-agent Image (!!Image works only if used as a slave in Jenkins!!) => Change Tag if needed
 
-    docker build -t python-slave:latest .
+    docker build -t sogis/config-generator-agent:latest .
 
 Tag Image to push in sogis Repo => change Tag if needed
 
-    docker tag python-slave:latest sogis/python-slave:latest 
+    docker push sogis/config-generator-agent:latest
 
 Update ImageStream in Openshift (For Test Environment)
 
     oc project agi-apps-test
 
-    oc tag --source=docker sogis/python-slave:latest python-slave:latest
+    oc tag --source=docker sogis/config-generator-agent:latest config-generator-agent:latest
+
+Update configMap for the config-generator-agent in Jenkins (to Image Version 1.7)
+
+    git clone https://github.com/sogis/pipelines.git
+    
+    cd pipelines/api_webgisclient
+
+    oc process -f template-configGenAgent.yaml -p PROJECTNAME=agi-apps-test -p IMAGE_TAG_AGENT=1.7 | oc apply -n agi-apps-test -f-  
