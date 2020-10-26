@@ -335,7 +335,7 @@ class DataproductServiceConfig(ServiceConfig):
 
         return metadata
 
-        def _layer_queryable(self, ows_layer):
+    def _layer_queryable(self, ows_layer):
         """Recursively check whether layer or any sublayers are queryable.
         :param obj ows_layer: Group or Data layer object
         """
