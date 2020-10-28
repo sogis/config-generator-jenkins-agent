@@ -24,6 +24,7 @@
   "localeAwareNumbers": true,
   "wmsDpi": 96,
   "minResultsExanded": 100,
+  globallyDisableDockableDialogs": true,
   "defaultFeatureStyle": {
     "strokeColor": [255, 128, 0, 1],
     "strokeWidth": 2,
