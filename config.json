@@ -70,7 +70,7 @@
                 {"key": "Tools", "icon": "tools", "subitems": [
                   {"key": "Measure", "icon": "measure"},
                   {"key": "Redlining", "icon": "draw"},
-                  {"key": "Editing", "themeWhitelist": [], "icon": "editing"},
+                  {"key": "Editing", "icon": "editing"},
                   {"key": "RasterExport", "icon": "rasterexport"}
                 ]},
                 {"key": "Print", "icon": "print"},
@@ -273,7 +273,7 @@
                 {"key": "Tools", "icon": "tools", "subitems": [
                   {"key": "Measure", "icon": "measure"},
                   {"key": "Redlining", "icon": "draw"},
-                  {"key": "Editing", "themeWhitelist": [], "icon": "editing"},
+                  {"key": "Editing", "icon": "editing"},
                   {"key": "RasterExport", "icon": "rasterexport"}
                 ]},
                 {"key": "Print", "icon": "print"},
