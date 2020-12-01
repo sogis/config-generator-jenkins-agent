@@ -8,6 +8,8 @@ from sqlalchemy.sql import text as sql_text
 from permissions_query import PermissionsQuery
 from service_config import ServiceConfig
 
+from wmts_utils import get_wmts_layer_data
+
 
 class MapViewerConfig(ServiceConfig):
     """MapViewerServiceConfig class
@@ -183,7 +185,8 @@ class MapViewerConfig(ServiceConfig):
         # collect resources from ConfigDB
         themes = OrderedDict()
         themes['title'] = 'root'
-        themes['items'] = self.themes_items(service_config, session)
+        theme_external_layers = []
+        themes['items'] = self.themes_items(theme_external_layers, service_config, session)
         themes['subdirs'] = []
         themes['defaultTheme'] = cfg_qwc2_themes.get('default_theme')
         themes['backgroundLayers'] = self.background_layers(session)
@@ -205,13 +208,47 @@ class MapViewerConfig(ServiceConfig):
             ]
         )
 
+        themes["externalLayers"] = []
+        for entry in theme_external_layers:
+            cpos = entry.find(':')
+            hpos = entry.rfind('#')
+            type = entry[0:cpos]
+            url = entry[cpos+1:hpos]
+            layername = entry[hpos+1:]
+            if type == "wms":
+                themes["externalLayers"].append({
+                    "name": entry,
+                    "type": type,
+                    "url": url,
+                    "params": {"LAYERS": layername},
+                    "infoFormats": ["text/plain"]
+                })
+            elif type == "wmts":
+                data = get_wmts_layer_data(self.logger, url, layername)
+                themes["externalLayers"].append({
+                    "name": entry,
+                    "type": type,
+                    "url": data["res_url"],
+                    "tileMatrixPrefix": "",
+                    "tileMatrixSet": data["tileMatrixSet"],
+                    "originX": data["origin"][0],
+                    "originY": data["origin"][1],
+                    "projection:": data["crs"],
+                    "resolutions": data["resolutions"],
+                    "tileSize": data["tile_size"]
+                })
+            else:
+                self.logger.warning("Skipping external layer %s of unknown type %s" %
+                                    (entry, type))
+
         qwc2_themes['themes'] = themes
 
         return qwc2_themes
 
-    def themes_items(self, service_config, session):
+    def themes_items(self, theme_external_layers, service_config, session):
         """Collect theme items from ConfigDB.
 
+        :param list theme_external_layers: external layers added to themes
         :param obj service_config: Additional service config
         :param Session session: DB session
         """
@@ -243,6 +280,13 @@ class MapViewerConfig(ServiceConfig):
             'default_layer_bounds', [2590000, 1210000, 2650000, 1270000]
         )
 
+        themes_background_layers = self.background_layers(session)
+        # collect layers referenced by group
+        self.background_layer_group_refs = []
+        for l in themes_background_layers:
+            for it in l.get('items', []):
+                self.background_layer_group_refs.append(it.get('ref'))
+
         # collect maps
         Map = self.config_models.model('map')
         query = session.query(Map).distinct(Map.name)
@@ -264,9 +308,13 @@ class MapViewerConfig(ServiceConfig):
             item['initialBbox']['bounds'] = initial_bounds
 
             # collect layers
-            layers, drawing_order = self.map_layers(map_obj, layer_bbox)
+            external_layers = []
+            layers, drawing_order = self.map_layers(map_obj, layer_bbox, external_layers)
             item['sublayers'] = layers
             item['drawingOrder'] = drawing_order
+            item['externalLayers'] = external_layers
+
+            theme_external_layers += list(map(lambda entry: entry["name"], external_layers))
 
             background_layers = self.item_background_layers(session)
             if map_obj.background_layer:
@@ -276,6 +324,13 @@ class MapViewerConfig(ServiceConfig):
                     if background_layer['name'] == bg_name:
                         background_layer['visibility'] = True
                         break
+            # use printLayer from themes_background_layers
+            for background_layer in background_layers:
+                themes_bgl = next((l for l in themes_background_layers if
+                                  l['name'] == background_layer['name']), {})
+                if themes_bgl.get('printLayer'):
+                    background_layer['printLayer'] = themes_bgl['printLayer']
+
             item['backgroundLayers'] = background_layers
 
             item['print'] = print_layouts
@@ -444,11 +499,12 @@ class MapViewerConfig(ServiceConfig):
 
         return cfg
 
-    def map_layers(self, map_obj, layer_bbox):
+    def map_layers(self, map_obj, layer_bbox, external_layers):
         """Return theme item layers and drawing order for a map from ConfigDB.
 
         :param obj map_obj: Map object
         :param obj layer_bbox: Default layer extent
+        :param obj external_layers: Collected external layers
         """
         layers = []
         drawing_order = []
@@ -459,7 +515,7 @@ class MapViewerConfig(ServiceConfig):
                 (100.0 - map_layer.layer_transparency)/100.0 * 255
             )
             res = self.collect_layers(
-                ows_layer, opacity, map_layer.layer_active, layer_bbox
+                ows_layer, opacity, map_layer.layer_active, layer_bbox, external_layers
             )
             layers += res['layers']
             drawing_order += res['drawing_order']
@@ -468,7 +524,7 @@ class MapViewerConfig(ServiceConfig):
 
         return layers, drawing_order
 
-    def collect_layers(self, layer, opacity, visibility, layer_bbox):
+    def collect_layers(self, layer, opacity, visibility, layer_bbox, external_layers):
         """Recursively collect layers for layer subtree from ConfigDB
         and return nested theme item sublayers and drawing order.
 
@@ -476,9 +532,12 @@ class MapViewerConfig(ServiceConfig):
         :param int opacity: Layer Opacity between [0..100]
         :param bool visibility: Whether layer is active
         :param obj layer_bbox: Default layer extent
+        :param obj external_layers: Collected external layers
         """
         layers = []
         drawing_order = []
+        data_set_view = None
+        searchterms = []
 
         # NOTE: use ordered keys
         item_layer = OrderedDict()
@@ -493,7 +552,7 @@ class MapViewerConfig(ServiceConfig):
                 sublayer = group_layer.sub_layer
                 # recursively collect sublayer
                 res = self.collect_layers(
-                    sublayer, opacity, visibility, layer_bbox
+                    sublayer, opacity, visibility, layer_bbox, external_layers
                 )
                 sublayers += res['layers']
                 drawing_order += res['drawing_order']
@@ -538,6 +597,21 @@ class MapViewerConfig(ServiceConfig):
             item_layer['bbox'] = layer_bbox
 
             drawing_order.append(layer.name)
+
+        if data_set_view:
+            data_set = data_set_view.data_set
+            data_source = data_set.data_source
+            if data_source.connection_type == "wms" or data_source.connection_type == "wmts":
+                external_layers.append({
+                    "internalLayer": item_layer['name'],
+                    "name": data_source.connection_type + ":" + data_source.connection + "#" + data_set.data_set_name,
+                })
+
+            if data_set_view.facet:
+                item_layer['searchterms'] = [data_set_view.facet]
+                searchterms.append(data_set_view.facet)
+        elif len(searchterms) > 0:
+            item_layer['searchterms'] = searchterms
 
         layers.append(item_layer)
 
@@ -588,7 +662,9 @@ class MapViewerConfig(ServiceConfig):
             background_layer = OrderedDict()
             background_layer['name'] = layer.qwc2_bg_layer_name
             background_layer['printLayer'] = layer.name
-            background_layers.append(background_layer)
+            # Ignore background layers referenced by groups
+            if background_layer['name'] not in self.background_layer_group_refs:
+                background_layers.append(background_layer)
 
         return background_layers
 

@@ -3,6 +3,7 @@ import os
 import re
 from urllib.parse import urlparse, parse_qs
 import uuid
+import requests
 
 from flask import json, jsonify
 from jinja2 import Template
@@ -10,6 +11,11 @@ from xml.dom.minidom import parseString
 
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.sql import text as sql_text
+
+from wmts_utils import get_wmts_layer_data
+
+
+QGS_VERSION = os.environ.get('QGS_VERSION', '2')
 
 
 class LoggerHelper:
@@ -121,6 +127,9 @@ class QGSWriter:
             "raster": self.load_template('qgs/raster.qml')
         }
 
+        # wmts capabilities cache
+        self.wmts_capabilities = {}
+
     def load_template(self, path):
         """Load contents of QGIS template file.
 
@@ -205,6 +214,8 @@ class QGSWriter:
             # FIXME Hardcoded
             CONNTYPE_DB = 'database'
             CONNTYPE_FILE = 'directory'
+            CONNTYPE_WMS = 'wms'
+            CONNTYPE_WMTS = 'wmts'
 
             data_source = layer.data_set_view.data_set.data_source
             conn_type = data_source.connection_type
@@ -384,6 +395,7 @@ class QGSWriter:
 
                 vectorlayerids.append(layerid)
 
+                dataUrl = ""
             elif conn_type == CONNTYPE_FILE:
                 # FIXME Hardcoded
                 # FIXME File connections are assumed to be raster layers
@@ -415,6 +427,48 @@ class QGSWriter:
 
                 # MapLayer attributes
                 attributes = qml["attr"]
+
+                dataUrl = ""
+            elif conn_type == CONNTYPE_WMS:
+                provider = "wms"
+                layer_type = "raster"
+                connection = layer.data_set_view.data_set.data_source.connection
+                dataset = layer.data_set_view.data_set.data_set_name
+                datasource = "crs=EPSG:2056&format=image/png&styles&layers=%s&url=%s" % (dataset, connection)
+
+                extent = None
+                qml = self.parse_qml_style(self.default_styles['raster'])
+
+                # MapLayer attributes
+                attributes = qml["attr"]
+
+                dataUrl = "wms:%s#%s" % (connection, dataset)
+            elif conn_type == CONNTYPE_WMTS:
+                provider = "wms"
+                layer_type = "raster"
+                connection = layer.data_set_view.data_set.data_source.connection
+                dataset = layer.data_set_view.data_set.data_set_name
+
+                data = get_wmts_layer_data(self.logger, connection, dataset)
+
+                datasource = "crs={crs}&format=image/png&layers={layer_name}&styles={style}&tileDimensions={dim_ident}%3D{dim_value}&tileMatrixSet={tileMatrixSet}&url={capabilites_url}".format(
+                    crs = data["crs"],
+                    layer_name = data["layer_name"],
+                    style = data["style"],
+                    tileMatrixSet = data["tileMatrixSet"],
+                    capabilites_url = data["capabilites_url"],
+                    dim_ident = data["dim_ident"],
+                    dim_value = data["dim_value"]
+                )
+
+                extent = None
+                qml = self.parse_qml_style(self.default_styles['raster'])
+
+                # MapLayer attributes
+                attributes = qml["attr"]
+
+                dataUrl = "wmts:%s#%s" % (connection, dataset)
+
             else:
                 return {}
 
@@ -430,7 +484,8 @@ class QGSWriter:
                 "datasource": html.escape(datasource),
                 "style": qml["style"],
                 "mapTip": "",
-                "extent": extent
+                "extent": extent,
+                "dataUrl": dataUrl
             }
 
     def update_qgs(self):
@@ -495,11 +550,16 @@ class QGSWriter:
                 "datasource": html.escape(entry.qgis_datasource),
                 "style": qml["style"],
                 "mapTip": "",
-                "extent": self.default_extent
+                "extent": self.default_extent,
+                "dataUrl": ""
             })
 
         # Render project
-        qgs_template = Template(self.load_template('qgs/service.qgs'))
+        if QGS_VERSION == '3':
+            qgs_template_fn = 'qgs/service_3.qgs'
+        else:
+            qgs_template_fn = 'qgs/service_2.qgs'
+        qgs_template = Template(self.load_template(qgs_template_fn))
         dataset = wms.name
 
         ows_metadata = {}
