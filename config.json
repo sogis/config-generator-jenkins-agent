@@ -25,6 +25,9 @@
   "wmsDpi": 96,
   "minResultsExanded": 100,
   "globallyDisableDockableDialogs": true,
+  "externalLayerFeatureInfoFormats": {
+    "wms.geo.admin.ch": "application/vnd.ogc.gml"
+  },
   "defaultFeatureStyle": {
     "strokeColor": [255, 128, 0, 1],
     "strokeWidth": 2,
