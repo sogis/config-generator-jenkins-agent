@@ -38,7 +38,7 @@
               "online_resources": {
                 "service": "https://geo-t.so.ch/api/wms",
                 "feature_info": "https://geo-t.so.ch/api/v1/featureinfo/somap",
-                "legend": "https://geo-t.so.ch/api/v1/featureinfo/somap"
+                "legend": "https://geo-t.so.ch/api/v1/legend/somap"
               }
             }
           ],
