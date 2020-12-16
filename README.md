@@ -161,7 +161,13 @@ Create a secret for the pg_service file in the same Openshift Project as jenkins
 
     oc create secret generic config-generator-agent-pg-service --from-file=pg_service.conf -n agi-apps-test
 
-Build config-generator-agent Image (!!Image works only if used as a slave in Jenkins!!) => Change Tag if needed
+A Template for the pg_service Secret is also stored under H:\BJSVW\Agi\GDI\Betrieb\Openshift\Pipelines\secret-config-generator-agent-pg-service.yaml. Create with
+
+    oc create -f secret-config-generator-agent-pg-service.yaml
+
+##### From here use these steps also for updating config-generator-agent to a newer version
+
+Build the config-generator-agent Image (!!Image works only if used as a slave in Jenkins!!) => Change Tag if needed
 
     docker build -t sogis/config-generator-agent:latest .
 
