@@ -21,7 +21,7 @@
       {   
         "name": "saml-auth",
         "config": {
-          "saml_path": "saml",
+          "saml_path": "/srv/qwc_service/saml",
           "saml_slo": true,
           "group_attr": "department_qualified"
         }
