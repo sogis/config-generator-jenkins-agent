@@ -23,7 +23,9 @@
         "config": {
           "saml_path": "/srv/qwc_service/saml",
           "saml_slo": true,
-          "group_attr": "department_qualified"
+          "group_attr": "department_qualified",
+	  "spnq": "https://geo-t.so.ch/auth/metadata/",
+	  "name_id": ""
         }
       },
       {   
