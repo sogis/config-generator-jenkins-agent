@@ -178,7 +178,7 @@
           "clients": [
             {
               "id": "baugk",
-              "cccServer": "wss://geo-i.so.ch/ccc-service",
+              "cccServer": "wss://@CCC_SERVER_DOMAIN@/ccc-service",
               "title": "BauGK - GIS",
               "map": "baugk",
               "editGeomType": "Point",
@@ -195,7 +195,7 @@
             },
             {
               "id": "uplus_anlage",
-              "cccServer": "wss://geo-i.so.ch/ccc-service",
+              "cccServer": "wss://@CCC_SERVER_DOMAIN@/ccc-service",
               "title": "Umweltplus - GIS",
               "map": "ews_v2",
               "editGeomType": "Point",
@@ -212,7 +212,7 @@
             },
             {
               "id": "uplus_tank",
-              "cccServer": "wss://geo-i.so.ch/ccc-service",
+              "cccServer": "wss://@CCC_SERVER_DOMAIN@/ccc-service",
               "title": "Umweltplus - GIS",
               "map": "uplus_tank",
               "editGeomType": "Point",
@@ -229,7 +229,7 @@
             },
             {
               "id": "uplus_luft",
-              "cccServer": "wss://geo-i.so.ch/ccc-service",
+              "cccServer": "wss://@CCC_SERVER_DOMAIN@/ccc-service",
               "title": "Umweltplus - GIS",
               "map": "uplus_luft",
               "editGeomType": "Point",
