@@ -277,7 +277,7 @@
       {   
         "name": "elevation",
         "config": {
-          "elevation_dataset": "/data/daten_aktuell/agi/hoehenmodelle/lidar/2014/dtm/50cm/lidar_2014_dtm_50cm.vrt"
+          "elevation_dataset": "/data/geodata/ch.so.agi.lidar_2014.dtm/lidar_2014_dtm_50cm.vrt"
         }
       },
       {
