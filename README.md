@@ -161,7 +161,8 @@ Create a secret for the pg_service file in the same Openshift Project as jenkins
 
     oc create secret generic config-generator-agent-pg-service --from-file=pg_service.conf -n agi-apps-test
 
-A Template for the pg_service Secret is also stored under H:\BJSVW\Agi\GDI\Betrieb\Openshift\Pipelines\secret-config-generator-agent-pg-service.yaml. Create with
+A Template for the pg_service Secret is also stored under H:\BJSVW\Agi\GDI\Betrieb\Openshift\Pipelines\secret-config-generator-agent-pg-service.yaml. Update
+the DB Connections in the secret due to the environment and then create with
 
     oc create -f secret-config-generator-agent-pg-service.yaml
 
@@ -175,16 +176,16 @@ Tag Image to push in sogis Repo => change Tag if needed
 
     docker push sogis/config-generator-agent:latest
 
-Update ImageStream in Openshift (For Test Environment)
+Update ImageStream in Openshift (to version 1.20 in Int and Prod Environment. Test Environment always uses latest Image which is scheduled)
 
     oc project agi-apps-test
 
-    oc tag --source=docker sogis/config-generator-agent:latest config-generator-agent:latest
+    oc tag --source=docker sogis/config-generator-agent:1.20 config-generator-agent:1.20
 
-Update configMap for the config-generator-agent in Jenkins (to Image Version 1.7)
+Update configMap for the config-generator-agent in Jenkins (to Image Version 1.20)
 
     git clone https://github.com/sogis/pipelines.git
     
     cd pipelines/api_webgisclient
 
-    oc process -f template-configGenAgent.yaml -p PROJECTNAME=agi-apps-test -p IMAGE_TAG_AGENT=1.7 | oc apply -n agi-apps-test -f-  
+    oc process -f template-configGenAgent.yaml -p PROJECTNAME=agi-apps-test -p IMAGE_TAG_AGENT=1.20 | oc apply -n agi-apps-test -f-  
