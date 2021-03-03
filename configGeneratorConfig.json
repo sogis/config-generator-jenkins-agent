@@ -37,18 +37,18 @@
           "wms_services": [
             {
               "name": "somap",
-	      "print_url": "{{QGIS_SERVER_PRINT_URL}}somap_print",
+	      "print_url": "$$QGIS_SERVER_PRINT_URL$$somap_print",
               "online_resources": {
-                "service": "{{MAP_BASE_URL}}/api/wms",
-                "feature_info": "{{MAP_BASE_URL}}/api/v1/featureinfo/somap",
-                "legend": "{{MAP_BASE_URL}}/api/v1/legend/somap"
+                "service": "$$MAP_BASE_URL$$/api/wms",
+                "feature_info": "$$MAP_BASE_URL$$/api/v1/featureinfo/somap",
+                "legend": "$$MAP_BASE_URL$$/api/v1/legend/somap"
               }
             }
           ],
           "wfs_services": [
             {
               "name": "somap",
-              "online_resource": "{{MAP_BASE_URL}}/api/wfs"
+              "online_resource": "$$MAP_BASE_URL$$/api/wfs"
             }
           ]
         }
@@ -179,7 +179,7 @@
           "clients": [
             {
               "id": "baugk",
-              "cccServer": "wss://geo-t.so.ch/ccc-service",
+              "cccServer": "$$CCC_BASE_URL$$/ccc-service",
               "title": "BauGK - GIS",
               "map": "baugk",
               "editGeomType": "Point",
@@ -196,7 +196,7 @@
             },
             {
               "id": "uplus_anlage",
-              "cccServer": "wss://geo-t.so.ch/ccc-service",
+              "cccServer": "$$CCC_BASE_URL$$/ccc-service",
               "title": "Umweltplus - GIS",
               "map": "ews_v2",
               "editGeomType": "Point",
@@ -213,7 +213,7 @@
             },
             {
               "id": "uplus_tank",
-              "cccServer": "wss://geo-t.so.ch/ccc-service",
+              "cccServer": "$$CCC_BASE_URL$$/ccc-service",
               "title": "Umweltplus - GIS",
               "map": "uplus_tank",
               "editGeomType": "Point",
@@ -230,7 +230,7 @@
             },
             {
               "id": "uplus_luft",
-              "cccServer": "wss://geo-t.so.ch/ccc-service",
+              "cccServer": "$$CCC_BASE_URL$$/ccc-service",
               "title": "Umweltplus - GIS",
               "map": "uplus_luft",
               "editGeomType": "Point",
