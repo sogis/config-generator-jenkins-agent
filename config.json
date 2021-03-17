@@ -131,7 +131,8 @@
           "name": "Print",
           "cfg": {
             "printExternalLayers": true,
-            "gridInitiallyEnabled": true
+            "gridInitiallyEnabled": true,
+            "scaleFactor": 0.75
           }
         },
         {
@@ -228,12 +229,6 @@
               }
             ]
           }
-        },
-	{
-            "name": "Autologin",
-            "cfg": {
-                "autologinUrl": "https://intraso.rootso.org"
-            }
         },
         {
             "name": "LoginUser"
@@ -370,7 +365,8 @@
           "name": "Print",
           "cfg": {
             "printExternalLayers": true,
-            "gridInitiallyEnabled": true
+            "gridInitiallyEnabled": true,
+            "scaleFactor": 0.75
           }
         },
         {
@@ -455,12 +451,6 @@
               }
             ]
           }
-        },
-	{
-            "name": "Autologin",
-            "cfg": {
-                "autologinUrl": "https://intraso.rootso.org"
-            }
         },
         {
             "name": "LoginUser"
