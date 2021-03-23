@@ -31,7 +31,7 @@
       {   
         "name": "ogc",
         "config": {
-          "default_qgis_server_url": "http://qgis-server.gdi-test.svc/ows/"
+          "default_qgis_server_url": "http://qgis-server.gdi-production.svc/ows/"
         },
         "resources": {
           "wms_services": [
@@ -187,7 +187,7 @@
                 "layer": "ch.so.afu.baugk.geschaefte",
                 "mapping": [
                   {
-                    "agdi_attr_name": "laufnummer",
+                    "agdi_attr_name": "Laufnummer",
                     "ccc_attr_name": "geschaeft_laufnr"
                   }
                 ]
@@ -204,7 +204,7 @@
                 "layer": "ch.so.afu.erdwaerme.uplus.anlage_v2",
                 "mapping": [
                   {
-                    "agdi_attr_name": "anlage_uuid",
+                    "agdi_attr_name": "Anlage UUID",
                     "ccc_attr_name": "uplus_anlage"
                   }
                 ]
@@ -221,7 +221,7 @@
                 "layer": "ch.so.afu.uplus.tank",
                 "mapping": [
                   {
-                    "agdi_attr_name": "anlage_uuid",
+                    "agdi_attr_name": "Anlage UUID",
                     "ccc_attr_name": "uplus_anlage"
                   }
                 ]
@@ -238,7 +238,7 @@
                 "layer": "ch.so.afu.uplus.luft_anlage",
                 "mapping": [
                   {
-                    "agdi_attr_name": "anlage_uuid",
+                    "agdi_attr_name": "Anlage UUID",
                     "ccc_attr_name": "uplus_anlage"
                   }
                 ]
@@ -246,7 +246,7 @@
                 "layer": "ch.so.afu.uplus.luft_betrieb",
                 "mapping": [
                   {
-                    "agdi_attr_name": "betrieb_uuid",
+                    "agdi_attr_name": "Betrieb UUID",
                     "ccc_attr_name": "uplus_betrieb"
                   }
                 ]
