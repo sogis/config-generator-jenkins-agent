@@ -163,7 +163,7 @@
       {
         "name": "dataproduct",
         "config": {
-          "wms_service_url": "https://geo-t.so.ch/api/wms?",
+          "wms_service_url": "$$WMS_SERVICE_URL$$",
           "qgs_resources_dir": "/qgs-resources/"
         }
       },
