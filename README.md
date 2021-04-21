@@ -157,14 +157,17 @@ Integration in AGI environment
 
 Adapt Dockerfile for use of config-generator in a jenkins agent.
 
-Create a secret for the pg_service file in the same Openshift Project as jenkins with
+Create an example secret for a pg_service file from a local pg_service file with
 
-    oc create secret generic config-generator-agent-pg-service --from-file=pg_service.conf -n agi-apps-test
+    oc create secret generic config-generator-agent-pg-service-gdi-test --from-file=pg_service.conf -n agi-apps-test
 
-A Template for the pg_service Secret is also stored under H:\BJSVW\Agi\GDI\Betrieb\Openshift\Pipelines\secret-config-generator-agent-pg-service.yaml. Update
-the DB Connections in the secret due to the environment and then create with
+Templates for the pg_service Secrets are also stored under H:\BJSVW\Agi\GDI\Betrieb\Openshift\Pipelines\secret-config-generator-agent-pg-service-gdi-xxx.yaml. Download the secret templates to your local machine and create with
 
-    oc create -f secret-config-generator-agent-pg-service.yaml
+    oc create -f secret-config-generator-agent-pg-service-gdi-test.yaml
+    oc create -f secret-config-generator-agent-pg-service-gdi-integration.yaml
+    oc create -f secret-config-generator-agent-pg-service-gdi-production.yaml
+
+Every GDI environment needs a different pg_service File in the config-generator because the config-generator needs to connect to the right DBs.
 
 ##### From here use these steps also for updating config-generator-agent to a newer version
 
