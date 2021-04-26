@@ -452,6 +452,12 @@
             ]
           }
         },
+	{
+            "name": "AutoLogin",
+	    "cfg": {
+                "autologinUrl": "https://intraso.rootso.org"
+	    }
+	},
         {
             "name": "LoginUser"
         }
