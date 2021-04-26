@@ -453,7 +453,7 @@
           }
         },
 	{
-            "name": "AutoLogin",
+            "name": "Autologin",
 	    "cfg": {
                 "autologinUrl": "https://intraso.rootso.org"
 	    }
