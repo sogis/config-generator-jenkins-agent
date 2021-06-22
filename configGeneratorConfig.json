@@ -257,6 +257,8 @@
           ],
 	  "zoomto_data_service_url": "http://data-service.gdi-test.svc",
           "zoomto_full_extent": [2590983.475, 1212806.115, 2646267.025, 1262755.009],
+	  "zoomto_canton_extent": [2590983.475, 1212806.115, 2646267.025, 1262755.009],
+          "zoomto_min_scale": 1000,
           "zoomto_config": {
             "locatorType": "PriorityLocator",
             "filters": [
