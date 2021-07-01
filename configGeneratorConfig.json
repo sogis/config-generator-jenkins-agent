@@ -25,7 +25,8 @@
           "saml_slo": true,
           "group_attr": "department_qualified",
 	  "spnq": "https://geo-t.so.ch/auth/metadata/",
-	  "name_id": ""
+	  "name_id": "",
+	  "ip_network": "10.36.0.0/16"
         }
       },
       {   
@@ -263,13 +264,13 @@
             "locatorType": "PriorityLocator",
             "filters": [
               {
-                "dataset": "ch.so.agi.av.grundstuecke.rechtskraeftig",
+                "dataset": "ch.so.agi.av.grundstuecke.rechtskraeftig.data",
                 "filter": [
                   ["nbident", "=", "{grundbuch_nbident}"], "and", ["nummer", "=", "{parzelle_nr}"]
                 ]
               },
               {
-                "dataset": "ch.so.agi.gemeindegrenzen",
+                "dataset": "ch.so.agi.gemeindegrenzen.data",
                 "filter": [
                   ["bfs_gemeindenummer", "=", "{bfs}"]
                 ]
